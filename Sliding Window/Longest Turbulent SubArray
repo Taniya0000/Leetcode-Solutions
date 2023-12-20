@@ -1,0 +1,44 @@
+/**
+Problem Number: 978
+Difficulty: Medium
+Problem Link: https://leetcode.com/problems/longest-turbulent-subarray/description/
+**/
+
+
+import java.util.* ;
+import java.io.*; 
+public class Solution {
+
+	public static int longestDangerousRange(ArrayList<Integer> height, int n) {
+		if(height.size() < 2){
+			return height.size();
+		}
+
+		int max = 1;
+		int start = 0;
+		int end = 0;
+		int len = height.size();
+
+		while(start+1 < len){
+			if(height.get(start) == height.get(start+1)){
+				start++;
+				continue; 
+			}
+			end = start + 1;
+			while(end+1 < len && isIndexTurbulentFree(height, end)){
+				end++;
+			}
+			max = Math.max(max, end-start+1);
+			start = end;
+		}
+		return max;
+	}
+
+	private static boolean isIndexTurbulentFree(ArrayList<Integer> height, int k){
+		int result = (height.get(k) > height.get(k-1) && height.get(k) > height.get(k+1)) || (height.get(k) < height.get(k-1) && height.get(k) < height.get(k+1)) ? 1 : 0;
+		if(result == 1) {
+			return true;
+		}
+		return false;
+	}
+}
