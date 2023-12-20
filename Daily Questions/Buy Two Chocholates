@@ -1,0 +1,50 @@
+/**
+Problem Link: https://leetcode.com/problems/buy-two-chocolates/description/
+**/
+
+/** Intitution and Approach **/
+
+/**
+Intuition
+The main motive is to save the money that clearly depicts buy chocholates with lower values will save the most money. By keeping in mind this thing, find smallest and second smallest price in the price array and buy two chocholates.
+
+Approach
+1. Find the lowest and second lowest chocholate prices.
+2. Add the prices of chocholates and reduce from the given money and get leftover moeny.
+3. If the leftover money will be negative then return the money simply else the leftover money.
+
+Complexity
+Time complexity:
+O(n), where n is the price of n chocholates
+
+Space complexity:
+O(1)
+**/
+class Solution {
+    public int buyChoco(int[] prices, int money) {
+        int[] lowPrices = new int[2];
+        lowPrices = lowestPrices(prices);
+        int leftOver = money - (lowPrices[0] + lowPrices[1]);
+        if(leftOver < 0){
+            return money;
+        }
+        return leftOver;
+    }
+
+    public static int[] lowestPrices(int[] prices){
+        int[] lowPrices = new int[2];
+        int smallest = Integer.MAX_VALUE;
+        int secondSmallest = Integer.MAX_VALUE;
+        for(int i=0; i<prices.length; i++){
+            if(prices[i] < smallest){
+                secondSmallest = smallest;
+                smallest = prices[i];
+            } else if (prices[i] < secondSmallest && smallest < secondSmallest){
+                secondSmallest = prices[i];
+            }
+        }
+        lowPrices[0] = smallest;
+        lowPrices[1] = secondSmallest;
+        return lowPrices;
+    }
+}
